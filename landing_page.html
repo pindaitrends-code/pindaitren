@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- 🔥 FAVICON - HILANGKAN ERROR 404 -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔥</text></svg>">
+    
+    <!-- ✅ ANTI-CACHE -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    
+    <!-- ✅ SCHEMA MARKUP UNTUK SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Pindaitren",
+      "url": "https://pindai-trends.web.app",
+      "description": "Temukan produk viral terbaik dengan harga termurah dari semua marketplace",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://pindai-trends.web.app/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+    
+    <title>Pindaitren - Universal Smart Shopping Search</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+        body { background: #f0f2f5; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        
+        /* HEADER */
+        .header { text-align: center; padding: 30px 0; }
+        .header h1 { font-size: 42px; color: #1a1a2e; }
+        .header h1 span { color: #e74c3c; }
+        .header p { color: #666; font-size: 16px; margin-top: 5px; }
+        
+        /* SEARCH BAR */
+        .search-box { max-width: 600px; margin: 0 auto 30px; display: flex; gap: 10px; }
+        .search-box input { flex: 1; padding: 14px 20px; border: 2px solid #ddd; border-radius: 30px; font-size: 16px; outline: none; transition: 0.3s; }
+        .search-box input:focus { border-color: #e74c3c; box-shadow: 0 0 0 3px rgba(231,76,60,0.1); }
+        .search-box button { padding: 14px 30px; background: #e74c3c; color: white; border: none; border-radius: 30px; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.3s; }
+        .search-box button:hover { background: #c0392b; transform: scale(1.02); }
+        
+        /* SMART FILTERS */
+        .smart-filters { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px; }
+        .smart-filters button { padding: 8px 18px; border: 2px solid #ddd; border-radius: 20px; background: white; cursor: pointer; font-size: 13px; transition: 0.3s; }
+        .smart-filters button:hover { border-color: #e74c3c; color: #e74c3c; }
+        .smart-filters button.active { background: #e74c3c; color: white; border-color: #e74c3c; }
+        
+        .count-badge { text-align: center; color: #888; margin-bottom: 20px; font-size: 14px; }
+        
+        /* SECTION TITLE */
+        .section-title { font-size: 24px; font-weight: 700; color: #1a1a2e; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 3px solid #e74c3c; }
+        .section-title small { font-size: 14px; font-weight: 400; color: #888; }
+        
+        /* TOP 7 GRID */
+        .top-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 40px; }
+        .top-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: 0.3s; position: relative; border-left: 4px solid #e74c3c; }
+        .top-card:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
+        .top-card .rank { position: absolute; top: -12px; left: -12px; background: #e74c3c; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; }
+        .top-card .rank.gold { background: #f39c12; }
+        .top-card .rank.silver { background: #bdc3c7; color: #333; }
+        .top-card .rank.bronze { background: #e67e22; }
+        
+        .top-card .product-image { width: 100%; height: 160px; object-fit: cover; border-radius: 8px; background: #f5f5f5; margin-bottom: 10px; }
+        .top-card .product-title { font-size: 16px; font-weight: 600; margin-bottom: 8px; color: #1a1a2e; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .top-card .product-price-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .top-card .product-price { font-size: 24px; font-weight: 700; color: #e74c3c; }
+        .top-card .product-original { font-size: 14px; color: #999; text-decoration: line-through; }
+        .top-card .product-discount { background: #e74c3c; color: white; padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 700; }
+        .top-card .best-badge { background: #27ae60; color: white; padding: 2px 12px; border-radius: 12px; font-size: 11px; font-weight: 700; }
+        .top-card .product-rating { color: #f39c12; margin: 5px 0; font-size: 14px; }
+        .top-card .product-sold { color: #666; font-size: 13px; }
+        .top-card .product-shop { color: #888; font-size: 13px; }
+        
+        /* ULASAN TERBAIK */
+        .reviews-section { margin-top: 10px; padding: 10px; background: #f8f9fa; border-radius: 8px; border-left: 3px solid #f39c12; }
+        .reviews-section .review-title { font-size: 13px; font-weight: 600; margin-bottom: 5px; color: #333; }
+        .review-item { font-size: 13px; margin-bottom: 5px; padding: 5px 0; border-bottom: 1px solid #eee; }
+        .review-item:last-child { border-bottom: none; margin-bottom: 0; }
+        .review-item .review-rating { color: #f39c12; font-weight: 600; }
+        .review-item .review-text { color: #444; font-style: italic; }
+        .review-item .verified-badge { color: #27ae60; font-size: 11px; font-weight: 600; }
+        
+        /* TOMBOL GROUP */
+        .btn-group { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+        .btn-group .btn-view { flex: 1; padding: 10px 16px; background: #3498db; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 14px; text-align: center; transition: 0.3s; }
+        .btn-group .btn-view:hover { background: #2980b9; }
+        .btn-group .btn-buy { flex: 1; padding: 10px 16px; background: #e74c3c; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 14px; text-align: center; transition: 0.3s; }
+        .btn-group .btn-buy:hover { background: #c0392b; }
+        .btn-group .btn-buy.best-price-btn { background: #27ae60; }
+        .btn-group .btn-buy.best-price-btn:hover { background: #1e8449; }
+        
+        /* PRODUCT GRID (Semua Produk) */
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+        .product-card { background: white; border-radius: 12px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); transition: 0.3s; }
+        .product-card:hover { transform: translateY(-3px); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .product-card .product-image { width: 100%; height: 140px; object-fit: cover; border-radius: 6px; background: #f5f5f5; margin-bottom: 8px; }
+        .product-card .product-title { font-size: 14px; font-weight: 500; margin-bottom: 5px; color: #1a1a2e; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .product-card .product-price { font-size: 18px; font-weight: 700; color: #e74c3c; }
+        .product-card .product-original { font-size: 12px; color: #999; text-decoration: line-through; }
+        .product-card .product-rating { color: #f39c12; font-size: 13px; }
+        .product-card .product-sold { color: #888; font-size: 12px; }
+        .product-card .product-shop { color: #aaa; font-size: 12px; }
+        
+        /* ULASAN DI PRODUCT CARD */
+        .product-card .reviews-section { margin-top: 8px; padding: 8px; background: #f8f9fa; border-radius: 6px; }
+        .product-card .review-item { font-size: 12px; padding: 3px 0; }
+        .product-card .review-item .review-text { font-size: 12px; }
+        
+        .btn-group-small { display: flex; gap: 5px; margin-top: 8px; }
+        .btn-group-small .btn-view-small { flex: 1; padding: 6px 10px; background: #3498db; color: white; text-decoration: none; border-radius: 6px; font-size: 12px; font-weight: 600; text-align: center; transition: 0.3s; }
+        .btn-group-small .btn-view-small:hover { background: #2980b9; }
+        .btn-group-small .btn-buy-small { flex: 1; padding: 6px 10px; background: #e74c3c; color: white; text-decoration: none; border-radius: 6px; font-size: 12px; font-weight: 600; text-align: center; transition: 0.3s; }
+        .btn-group-small .btn-buy-small:hover { background: #c0392b; }
+        
+        /* PAGINATION */
+        .pagination { display: flex; justify-content: center; gap: 10px; margin-top: 30px; flex-wrap: wrap; }
+        .pagination button { padding: 10px 20px; border: 2px solid #ddd; border-radius: 8px; background: white; cursor: pointer; font-weight: 600; transition: 0.3s; }
+        .pagination button:hover { border-color: #e74c3c; color: #e74c3c; }
+        .pagination button.active { background: #e74c3c; color: white; border-color: #e74c3c; }
+        .pagination button:disabled { opacity: 0.4; cursor: not-allowed; }
+        
+        .loading { text-align: center; padding: 50px; color: #666; }
+        .no-results { text-align: center; padding: 50px; color: #999; }
+        
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .header h1 { font-size: 28px; }
+            .search-box { flex-direction: column; }
+            .top-grid { grid-template-columns: 1fr; }
+            .product-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 480px) {
+            .product-grid { grid-template-columns: 1fr; }
+            .btn-group { flex-direction: column; }
+            .btn-group-small { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <h1>🔥 Pinda<span>itren</span></h1>
+            <p>Temukan produk viral terbaik dengan harga termurah dari semua marketplace</p>
+        </div>
+        
+        <!-- SEARCH BAR -->
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Cari produk... (contoh: sepatu lari, skincare, hp)" onkeyup="searchProducts()">
+            <button onclick="searchProducts()">🔍 Cari</button>
+        </div>
+        
+        <!-- SMART FILTERS -->
+        <div class="smart-filters">
+            <button class="active" data-sort="rating" onclick="setSort('rating')">⭐ Rating Terbaik</button>
+            <button data-sort="sold" onclick="setSort('sold')">🔥 Paling Laris</button>
+            <button data-sort="discount" onclick="setSort('discount')">💸 Diskon Terbesar</button>
+            <button data-sort="price" onclick="setSort('price')">💰 Harga Termurah</button>
+            <button data-sort="shop" onclick="setSort('shop')">🏪 Toko Terbaik</button>
+        </div>
+        
+        <div class="count-badge" id="countBadge">📦 Memuat produk...</div>
+        
+        <!-- SECTION: TOP 7 PRODUK TERBAIK -->
+        <div id="topSection">
+            <div class="section-title">🏆 7 Produk Terbaik <small>(Smart Ranking dari semua marketplace)</small></div>
+            <div class="top-grid" id="topGrid"><div class="loading">⏳ Memuat produk terbaik...</div></div>
+        </div>
+        
+        <!-- SECTION: SEMUA PRODUK -->
+        <div id="allSection">
+            <div class="section-title">📦 Semua Produk <small>Daftar lengkap produk rekomendasi</small></div>
+            <div class="product-grid" id="productGrid"><div class="loading">⏳ Memuat produk...</div></div>
+            <div class="pagination" id="pagination"></div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script>
+        // 🔥 KONFIGURASI FIREBASE
+        const firebaseConfig = {
+            apiKey: "AIzaSyAqElPkXt07xAK6dtzGmz8M3N4Y_4Ck8hQ",
+            authDomain: "pindai-trends.firebaseapp.com",
+            projectId: "pindai-trends",
+            storageBucket: "pindai-trends.firebasestorage.app",
+            messagingSenderId: "946632248754",
+            appId: "1:946632248754:web:a676bdbcd83017f69f28ab"
+        };
+
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        
+        let rawProducts = [], filteredProducts = [];
+        let currentSort = 'rating', currentPage = 1;
+        const PER_PAGE = 20;
+        
+        // SVG PLACEHOLDER (100% OFFLINE)
+        const SVG_PLACEHOLDER = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'><rect width='100%25' height='100%25' fill='%23f3f4f6'/><text x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%239ca3af' font-family='sans-serif' font-size='14'>Gambar Tidak Tersedia</text></svg>";
+
+        // ============================================
+        // 🖼️ PENANGANAN GAMBAR
+        // ============================================
+        function getSafeImageUrl(url) {
+            if (!url || typeof url !== 'string' || url.includes('placeholder.com') || url.includes('999?text=')) return SVG_PLACEHOLDER;
+            if (url.startsWith('data:image')) return url;
+            if (url.startsWith('//')) url = 'https:' + url;
+            const blockedDomains = ['ibyteimg.com', 'byteimg.com', 'tiktok.com', 'tokopedia.net', 'p16-oec-va', 'p16-va'];
+            if (blockedDomains.some(d => url.includes(d))) return `https://images.weserv.nl/?url=${encodeURIComponent(url)}&w=300&h=200&fit=cover`;
+            return url;
+        }
+
+        // ============================================
+        // 🧠 SMART RANKING
+        // ============================================
+        function calculateSmartScore(p) {
+            // Gunakan smart_score dari Firebase jika ada, atau hitung ulang
+            if (p.smart_score) return p.smart_score;
+            
+            let score = 0;
+            if (p.peringkat >= 4.5) score += 30;
+            if (p.diskon >= 40) score += 25;
+            if (p.jumlah_terjual >= 5000) score += 25;
+            if (p.harga_asli > p.harga && p.diskon > 0) score += 20;
+            return score;
+        }
+
+        // ============================================
+        // 🔍 SEARCH & LOAD DATA
+        // ============================================
+        async function searchProducts() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            document.getElementById('topGrid').innerHTML = '<div class="loading">⏳ Memuat...</div>';
+            document.getElementById('productGrid').innerHTML = '<div class="loading">⏳ Memuat...</div>';
+            
+            try {
+                if (rawProducts.length === 0) {
+                    const snapshot = await db.collection('products').limit(200).get();
+                    if (snapshot.empty) {
+                        document.getElementById('topGrid').innerHTML = '<div class="no-results">Belum ada produk di Firestore.</div>';
+                        document.getElementById('productGrid').innerHTML = '<div class="no-results">Belum ada produk.</div>';
+                        document.getElementById('countBadge').textContent = '0 produk ditemukan';
+                        return;
+                    }
+                    rawProducts = [];
+                    snapshot.forEach(doc => {
+                        let p = doc.data();
+                        p.id = doc.id;
+                        p.smartScore = calculateSmartScore(p);
+                        rawProducts.push(p);
+                    });
+                }
+
+                filteredProducts = query ? rawProducts.filter(p => 
+                    (p.judul || '').toLowerCase().includes(query) ||
+                    (p.kategori || '').toLowerCase().includes(query) ||
+                    (p.nama_toko || '').toLowerCase().includes(query)
+                ) : [...rawProducts];
+
+                applySortAndRender();
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('topGrid').innerHTML = `<div class="no-results">❌ Error: ${error.message}</div>`;
+                document.getElementById('productGrid').innerHTML = `<div class="no-results">❌ Error: ${error.message}</div>`;
+                document.getElementById('countBadge').textContent = '⚠️ Gagal memuat data';
+            }
+        }
+
+        // ============================================
+        // 📊 SORT & RENDER
+        // ============================================
+        function applySortAndRender() {
+            let sorted = [...filteredProducts];
+            switch(currentSort) {
+                case 'rating': sorted.sort((a, b) => (b.peringkat || 0) - (a.peringkat || 0)); break;
+                case 'sold': sorted.sort((a, b) => (b.jumlah_terjual || 0) - (a.jumlah_terjual || 0)); break;
+                case 'discount': sorted.sort((a, b) => (b.diskon || 0) - (a.diskon || 0)); break;
+                case 'price': sorted.sort((a, b) => (a.harga || 999999999) - (b.harga || 999999999)); break;
+                case 'shop': sorted.sort((a, b) => (b.rating_toko || 0) - (a.rating_toko || 0)); break;
+                default: sorted.sort((a, b) => b.smartScore - a.smartScore);
+            }
+            renderTop7(sorted);
+            renderAllProducts(sorted);
+            document.getElementById('countBadge').textContent = `🏆 ${Math.min(7, sorted.length)} produk terbaik dari ${sorted.length} produk`;
+        }
+
+        // ============================================
+        // 🏆 RENDER TOP 7 DENGAN ULASAN
+        // ============================================
+        function renderTop7(products) {
+            const top7 = products.slice(0, 7);
+            if (top7.length === 0) {
+                document.getElementById('topGrid').innerHTML = '<div class="no-results">Tidak ada produk ditemukan</div>';
+                return;
+            }
+            
+            // ✅ FILTER HARGA MINIMAL Rp 5.000
+            const validPrices = top7.map(t => Number(t.harga) || 0).filter(h => h >= 5000);
+            const lowestPrice = validPrices.length > 0 ? Math.min(...validPrices) : 0;
+            
+            let html = '';
+            const rankLabels = ['🥇', '🥈', '🥉', '4️⃣', '5️⃣', '6️⃣', '7️⃣'];
+            
+            top7.forEach((p, i) => {
+                const hargaVal = Number(p.harga) || 0;
+                const hargaAsliVal = Number(p.harga_asli) || 0;
+                const isBestPrice = hargaVal === lowestPrice && hargaVal >= 5000;
+                const img = getSafeImageUrl(p.gambar);
+                const displayHarga = hargaVal > 0 ? `Rp ${hargaVal.toLocaleString('id-ID')}` : 'Hubungi Penjual';
+                
+                // ✅ ULASAN TERBAIK (3 ulasan rating tertinggi)
+                let reviewsHtml = '';
+                const ulasan = p.ulasan_terbaik || [];
+                if (ulasan.length > 0) {
+                    reviewsHtml = `<div class="reviews-section">
+                        <div class="review-title">💬 Ulasan Terbaik:</div>`;
+                    ulasan.slice(0, 3).forEach(r => {
+                        const rating = r.rating || r.review_rating || 0;
+                        const text = r.text || r.review_text || '';
+                        const verified = r.is_verified || r.isVerified || false;
+                        const displayText = text.length > 80 ? text.substring(0, 80) + '...' : text;
+                        reviewsHtml += `<div class="review-item">
+                            <span class="review-rating">⭐ ${rating}</span>
+                            <span class="review-text">"${displayText}"</span>
+                            ${verified ? '<span class="verified-badge">✅ Verified</span>' : ''}
+                        </div>`;
+                    });
+                    reviewsHtml += `</div>`;
+                }
+                
+                // Tampilkan sinyal produk
+                let signalsHtml = '';
+                if (p.is_discount || p.is_high_rating || p.is_best_seller || p.is_trending) {
+                    signalsHtml = `<div style="display:flex; gap:5px; flex-wrap:wrap; margin-top:5px;">`;
+                    if (p.is_discount) signalsHtml += `<span style="background:#e74c3c; color:white; padding:2px 8px; border-radius:12px; font-size:11px;">🔥 Diskon</span>`;
+                    if (p.is_high_rating) signalsHtml += `<span style="background:#f39c12; color:white; padding:2px 8px; border-radius:12px; font-size:11px;">⭐ Rating</span>`;
+                    if (p.is_best_seller) signalsHtml += `<span style="background:#27ae60; color:white; padding:2px 8px; border-radius:12px; font-size:11px;">🏆 Best Seller</span>`;
+                    if (p.is_trending) signalsHtml += `<span style="background:#8e44ad; color:white; padding:2px 8px; border-radius:12px; font-size:11px;">📈 Trending</span>`;
+                    signalsHtml += `</div>`;
+                }
+                
+                html += `<div class="top-card">
+                    <div class="rank ${i < 3 ? ['gold', 'silver', 'bronze'][i] : ''}">${rankLabels[i]}</div>
+                    <img class="product-image" src="${img}" alt="${p.judul || 'Product'}" onerror="this.onerror=null; this.src='${SVG_PLACEHOLDER}';">
+                    <div class="product-title">${(p.judul || 'Product').substring(0, 80)}${(p.judul || '').length > 80 ? '...' : ''}</div>
+                    <div class="product-price-row">
+                        <span class="product-price">${displayHarga}</span>
+                        ${(hargaAsliVal > hargaVal && hargaVal > 0) ? `<span class="product-original">Rp ${hargaAsliVal.toLocaleString('id-ID')}</span>` : ''}
+                        ${(p.diskon > 0 && hargaVal > 0) ? `<span class="product-discount">${p.diskon}%</span>` : ''}
+                        ${isBestPrice ? '<span class="best-badge">⭐ Termurah!</span>' : ''}
+                    </div>
+                    <div class="product-rating">⭐ ${(p.peringkat || 0).toFixed(1)} (${(p.jumlah_ulasan || 0).toLocaleString('id-ID')} ulasan)</div>
+                    <div class="product-sold">🛒 Terjual: ${(p.jumlah_terjual || 0).toLocaleString('id-ID')}</div>
+                    <div class="product-shop">🏪 ${p.nama_toko || 'Toko Marketplace'} ${p.rating_toko > 0 ? `⭐ ${p.rating_toko}` : ''}</div>
+                    ${signalsHtml}
+                    ${reviewsHtml}
+                    <div class="btn-group">
+                        <a href="${p.url || '#'}" target="_blank" class="btn-view">👁️ Lihat Produk</a>
+                        <a href="${p.link_afiliasi || p.url || '#'}" target="_blank" class="btn-buy ${isBestPrice ? 'best-price-btn' : ''}">${isBestPrice ? '💰 Beli Termurah!' : '🛍️ Beli Sekarang'}</a>
+                    </div>
+                </div>`;
+            });
+            document.getElementById('topGrid').innerHTML = html;
+        }
+
+        // ============================================
+        // 📦 RENDER ALL PRODUCTS DENGAN ULASAN
+        // ============================================
+        function renderAllProducts(products) {
+            const grid = document.getElementById('productGrid');
+            const pagination = document.getElementById('pagination');
+            
+            if (products.length === 0) {
+                grid.innerHTML = '<div class="no-results">😅 Tidak ada produk yang cocok. Coba kata kunci lain!</div>';
+                pagination.innerHTML = '';
+                return;
+            }
+            
+            const totalPages = Math.ceil(products.length / PER_PAGE);
+            const start = (currentPage - 1) * PER_PAGE;
+            const pageItems = products.slice(start, start + PER_PAGE);
+            
+            let html = '';
+            pageItems.forEach(p => {
+                const img = getSafeImageUrl(p.gambar);
+                const hargaVal = Number(p.harga) || 0;
+                const displayHarga = hargaVal > 0 ? `Rp ${hargaVal.toLocaleString('id-ID')}` : 'Hubungi Penjual';
+                
+                // ULASAN TERBAIK (1-2 ulasan saja di card kecil)
+                let reviewsHtml = '';
+                const ulasan = p.ulasan_terbaik || [];
+                if (ulasan.length > 0) {
+                    reviewsHtml = `<div class="reviews-section">
+                        <div class="review-title" style="font-size:11px;">💬 Ulasan:</div>`;
+                    ulasan.slice(0, 2).forEach(r => {
+                        const rating = r.rating || r.review_rating || 0;
+                        const text = r.text || r.review_text || '';
+                        const displayText = text.length > 50 ? text.substring(0, 50) + '...' : text;
+                        reviewsHtml += `<div class="review-item" style="font-size:11px;">
+                            <span class="review-rating">⭐ ${rating}</span>
+                            <span class="review-text">"${displayText}"</span>
+                        </div>`;
+                    });
+                    reviewsHtml += `</div>`;
+                }
+                
+                html += `<div class="product-card">
+                    <img class="product-image" src="${img}" alt="${p.judul || 'Product'}" onerror="this.onerror=null; this.src='${SVG_PLACEHOLDER}';">
+                    <div class="product-title">${(p.judul || 'Product').substring(0, 50)}${(p.judul || '').length > 50 ? '...' : ''}</div>
+                    <div class="product-price">${displayHarga}</div>
+                    ${(Number(p.harga_asli) > hargaVal && hargaVal > 0) ? `<span class="product-original">Rp ${Number(p.harga_asli).toLocaleString('id-ID')}</span>` : ''}
+                    <div class="product-rating">⭐ ${(p.peringkat || 0).toFixed(1)} (${(p.jumlah_ulasan || 0).toLocaleString('id-ID')})</div>
+                    <div class="product-sold">🛒 ${(p.jumlah_terjual || 0).toLocaleString('id-ID')}</div>
+                    <div class="product-shop">${(p.nama_toko || 'Toko Marketplace').substring(0, 20)}</div>
+                    ${reviewsHtml}
+                    <div class="btn-group-small">
+                        <a href="${p.url || '#'}" target="_blank" class="btn-view-small">👁️ Lihat</a>
+                        <a href="${p.link_afiliasi || p.url || '#'}" target="_blank" class="btn-buy-small">🛍️ Beli</a>
+                    </div>
+                </div>`;
+            });
+            grid.innerHTML = html;
+            
+            // PAGINATION
+            let pagHtml = '';
+            if (totalPages > 1) {
+                pagHtml += `<button onclick="goToPage(1)" ${currentPage === 1 ? 'disabled' : ''}>⏮️ First</button>`;
+                pagHtml += `<button onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>◀️ Prev</button>`;
+                let startPage = Math.max(1, currentPage - 2), endPage = Math.min(totalPages, currentPage + 2);
+                for (let i = startPage; i <= endPage; i++) {
+                    pagHtml += `<button onclick="goToPage(${i})" class="${i === currentPage ? 'active' : ''}">${i}</button>`;
+                }
+                pagHtml += `<button onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>Next ▶️</button>`;
+                pagHtml += `<button onclick="goToPage(${totalPages})" ${currentPage === totalPages ? 'disabled' : ''}>Last ⏭️</button>`;
+                pagHtml += ` <span style="color:#888;font-size:14px;">Page ${currentPage} of ${totalPages}</span>`;
+            }
+            pagination.innerHTML = pagHtml;
+        }
+
+        // ============================================
+        // 📄 GO TO PAGE
+        // ============================================
+        function goToPage(page) {
+            currentPage = page;
+            renderAllProducts([...filteredProducts].sort((a, b) => {
+                switch(currentSort) {
+                    case 'rating': return (b.peringkat || 0) - (a.peringkat || 0);
+                    case 'sold': return (b.jumlah_terjual || 0) - (a.jumlah_terjual || 0);
+                    case 'discount': return (b.diskon || 0) - (a.diskon || 0);
+                    case 'price': return (a.harga || 999999999) - (b.harga || 999999999);
+                    case 'shop': return (b.rating_toko || 0) - (a.rating_toko || 0);
+                    default: return b.smartScore - a.smartScore;
+                }
+            }));
+            document.getElementById('allSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // ============================================
+        // 🎯 SET SORT
+        // ============================================
+        function setSort(type) {
+            currentSort = type;
+            currentPage = 1;
+            document.querySelectorAll('.smart-filters button').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.sort === type);
+            });
+            applySortAndRender();
+        }
+
+        // ============================================
+        // 🚀 LOAD
+        // ============================================
+        document.addEventListener('DOMContentLoaded', () => searchProducts());
+    </script>
+</body>
+</html>
