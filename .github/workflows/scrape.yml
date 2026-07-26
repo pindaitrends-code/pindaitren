@@ -24,14 +24,21 @@ jobs:
         run: |
           pip install apify-client firebase-admin python-dotenv pyyaml
 
-      - name: Create service-account.json from secret
+      - name: Decode and create service-account.json
         run: |
-          echo '${{ secrets.FIREBASE_CRED_BASE64 }}' | base64 -d > service-account.json
+          echo "${{ secrets.FIREBASE_CRED_BASE64 }}" | base64 --decode > service-account.json
+        shell: bash
 
-      - name: Verify service-account.json
+      - name: Verify file exists
         run: |
-          ls -la service-account.json
-          head -c 100 service-account.json
+          if [ -f service-account.json ]; then
+            echo "✅ service-account.json created successfully"
+            cat service-account.json | head -c 200
+          else
+            echo "❌ service-account.json NOT created!"
+            exit 1
+          fi
+        shell: bash
 
       - name: Run scraper
         env:
@@ -46,3 +53,4 @@ jobs:
           path: |
             *.log
             *.txt
+            service-account.json
